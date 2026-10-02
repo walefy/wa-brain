@@ -1,7 +1,6 @@
 package com.walefy.wabrain.shared;
 
 import com.walefy.wabrain.shared.exception.HttpException;
-import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
