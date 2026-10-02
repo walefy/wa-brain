@@ -18,7 +18,7 @@ public class UserService {
 
   @Transactional
   public ReturnUserDTO createUser(CreateUserDTO createUserData) {
-    var existingUser = userRepository.findByFirstName(createUserData.firstName);
+    var existingUser = userRepository.findByUsername(createUserData.username);
 
     if (existingUser.isPresent()) {
       throw new UserAlreadyExistsException();
@@ -26,7 +26,7 @@ public class UserService {
 
     UserEntity user = createUserData.toEntity();
     user.setPassword(BcryptUtil.bcryptHash(user.getPassword()));
-    user.persist();
+    userRepository.persist(user);
 
     return ReturnUserDTO.fromEntity(user);
   }

@@ -12,6 +12,10 @@ public class CreateUserDTO {
   @Size(min = 3, max = 10, message = "Nome deve ter entre 3 e 10 caracteres")
   public String firstName;
 
+  @NotBlank(message = "Username é obrigatório")
+  @Size(min = 3, max = 10, message = "Username deve ter entre 3 e 10 caracteres")
+  public String username;
+
   @NotNull(message = "Data de nascimento é obrigatória")
   public Date birthDate;
 
@@ -20,6 +24,6 @@ public class CreateUserDTO {
   public String password;
 
   public UserEntity toEntity() {
-    return new UserEntity(firstName, birthDate, password);
+    return new UserEntity(username, firstName, birthDate, password);
   }
 }

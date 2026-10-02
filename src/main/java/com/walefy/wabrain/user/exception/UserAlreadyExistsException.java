@@ -1,7 +1,10 @@
 package com.walefy.wabrain.user.exception;
 
-public class UserAlreadyExistsException extends RuntimeException {
+import com.walefy.wabrain.shared.exception.HttpException;
+import org.jboss.resteasy.reactive.RestResponse;
+
+public class UserAlreadyExistsException extends HttpException {
   public UserAlreadyExistsException() {
-    super("Este nome de usuário já está em uso");
+    super("Este username já está em uso", RestResponse.Status.CONFLICT);
   }
 }

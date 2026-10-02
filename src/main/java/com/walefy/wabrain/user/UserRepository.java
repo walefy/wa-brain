@@ -11,4 +11,8 @@ public class UserRepository implements PanacheRepositoryBase<UserEntity, UUID> {
   public Optional<UserEntity> findByFirstName(String firstName) {
     return find("firstName", firstName).firstResultOptional();
   }
+
+  public Optional<UserEntity> findByUsername(String username) {
+    return find("username", username).firstResultOptional();
+  }
 }

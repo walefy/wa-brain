@@ -1,6 +1,5 @@
 package com.walefy.wabrain.user;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,7 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-public class UserEntity extends PanacheEntityBase {
+public class UserEntity {
   @Id @Generated private UUID id;
 
   @Column(name = "first_name", length = 20)
@@ -21,12 +20,16 @@ public class UserEntity extends PanacheEntityBase {
   @Column(name = "birth_date", columnDefinition = "date")
   private Date birthDate;
 
+  @Column(name = "username", length = 20, unique = true)
+  private String username;
+
   private String password;
 
-  public UserEntity(String firstName, Date birthDate, String password) {
+  public UserEntity(String username, String firstName, Date birthDate, String password) {
     this.firstName = firstName;
     this.birthDate = birthDate;
     this.password = password;
+    this.username = username;
   }
 
   public UUID getId() {
@@ -35,6 +38,14 @@ public class UserEntity extends PanacheEntityBase {
 
   public void setId(UUID id) {
     this.id = id;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
   }
 
   public String getFirstName() {
