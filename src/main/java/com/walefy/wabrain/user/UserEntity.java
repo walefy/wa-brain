@@ -1,18 +1,15 @@
 package com.walefy.wabrain.user;
 
+import com.walefy.wabrain.shared.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.Generated;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-public class UserEntity {
-  @Id @Generated private UUID id;
+public class UserEntity extends BaseEntity {
 
   @Column(name = "first_name", length = 20)
   private String firstName;
@@ -30,14 +27,6 @@ public class UserEntity {
     this.birthDate = birthDate;
     this.password = password;
     this.username = username;
-  }
-
-  public UUID getId() {
-    return id;
-  }
-
-  public void setId(UUID id) {
-    this.id = id;
   }
 
   public String getUsername() {

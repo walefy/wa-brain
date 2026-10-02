@@ -4,6 +4,7 @@ import com.walefy.wabrain.user.dto.CreateUserDTO;
 import com.walefy.wabrain.user.dto.GetUsersQueryDTO;
 import com.walefy.wabrain.user.dto.ReturnUserDTO;
 import com.walefy.wabrain.user.exception.UserAlreadyExistsException;
+import com.walefy.wabrain.user.exception.UserNotFound;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -11,6 +12,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class UserService {
@@ -43,5 +45,17 @@ public class UserService {
     return usersQuery.page(query.getPanachePage(), query.pageSize).stream()
         .map(ReturnUserDTO::fromEntity)
         .toList();
+  }
+
+  @Transactional
+  public void deleteUser(String username) {
+    Optional<UserEntity> userOption = userRepository.findByUsername(username);
+
+    if (userOption.isEmpty()) {
+      throw new UserNotFound();
+    }
+
+    UserEntity user = userOption.get();
+    userRepository.delete(user);
   }
 }

@@ -5,12 +5,11 @@ import com.walefy.wabrain.user.dto.GetUsersQueryDTO;
 import com.walefy.wabrain.user.dto.ReturnUserDTO;
 import io.quarkus.security.Authenticated;
 import jakarta.annotation.security.PermitAll;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.BeanParam;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.util.List;
 
@@ -18,6 +17,7 @@ import java.util.List;
 @Authenticated
 public class UserController {
   @Inject private UserService userService;
+  @Inject private JsonWebToken jwt;
 
   @POST
   @PermitAll
@@ -28,5 +28,11 @@ public class UserController {
   @GET
   public List<ReturnUserDTO> getUsers(@Valid @BeanParam GetUsersQueryDTO query) {
     return userService.getUsers(query);
+  }
+
+  @DELETE
+  public void deleteUser() {
+    String username = jwt.getSubject();
+    userService.deleteUser(username);
   }
 }
