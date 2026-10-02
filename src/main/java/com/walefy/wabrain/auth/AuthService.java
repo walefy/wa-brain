@@ -11,15 +11,11 @@ import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.util.Optional;
 
 @ApplicationScoped
 public class AuthService {
-  @ConfigProperty(name = "jwt.key")
-  String jwtKey;
-
   @Inject UserRepository userRepository;
 
   public JwtResponseDTO login(@Valid LoginDTO loginDTO) {
@@ -36,11 +32,14 @@ public class AuthService {
     }
 
     int fifteenMinusInSeconds = 900;
+
     String token =
         Jwt.claims()
+            .issuer("wabrain")
             .subject(loginDTO.username)
             .expiresIn(fifteenMinusInSeconds)
-            .signWithSecret(jwtKey);
-    return new JwtResponseDTO("Bearer " + token);
+            .sign();
+
+    return new JwtResponseDTO(token);
   }
 }
