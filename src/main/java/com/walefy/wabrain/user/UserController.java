@@ -5,7 +5,6 @@ import com.walefy.wabrain.user.dto.GetUsersQueryDTO;
 import com.walefy.wabrain.user.dto.ReturnUserDTO;
 import io.quarkus.security.Authenticated;
 import jakarta.annotation.security.PermitAll;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;

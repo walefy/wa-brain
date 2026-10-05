@@ -10,13 +10,9 @@ public class ReturnUserDTO {
   public String firstName;
   public Date birthDate;
 
-  public ReturnUserDTO(UUID id, String firstName, Date birthDate) {
-    this.id = id;
-    this.firstName = firstName;
-    this.birthDate = birthDate;
-  }
-
-  public static ReturnUserDTO fromEntity(UserEntity user) {
-    return new ReturnUserDTO(user.getId(), user.getFirstName(), user.getBirthDate());
+  public ReturnUserDTO(UserEntity user) {
+    this.id = user.getId();
+    this.firstName = user.getFirstName();
+    this.birthDate = user.getBirthDate();
   }
 }

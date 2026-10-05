@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @ApplicationScoped
 public class UserService {
@@ -30,7 +31,7 @@ public class UserService {
     user.setPassword(BcryptUtil.bcryptHash(user.getPassword()));
     userRepository.persist(user);
 
-    return ReturnUserDTO.fromEntity(user);
+    return new ReturnUserDTO(user);
   }
 
   public List<ReturnUserDTO> getUsers(GetUsersQueryDTO query) {
@@ -43,8 +44,18 @@ public class UserService {
     }
 
     return usersQuery.page(query.getPanachePage(), query.pageSize).stream()
-        .map(ReturnUserDTO::fromEntity)
+        .map(ReturnUserDTO::new)
         .toList();
+  }
+
+  public UserEntity getUserByUsername(String username) throws UserNotFound {
+    Optional<UserEntity> userOption = userRepository.findByUsername(username);
+
+    if (userOption.isEmpty()) {
+      throw new UserNotFound();
+    }
+
+    return userOption.get();
   }
 
   @Transactional
