@@ -22,11 +22,21 @@ public class GlobalExceptionMapper {
   }
 
   @ServerExceptionMapper
-  public RestResponse<Map<String, Object>> handleUnauthorizedException(UnauthorizedException e) {
+  public RestResponse<Map<String, Object>> handleUnauthorizedException(UnauthorizedException _e) {
     RestResponse.Status statusCode = RestResponse.Status.UNAUTHORIZED;
 
     Map<String, Object> response = new HashMap<>();
     response.put("message", "Você não está logado ou não tem acesso a este recurso");
+    response.put("status", statusCode.getStatusCode());
+
+    return RestResponse.status(statusCode, response);
+  }
+
+  @ServerExceptionMapper
+  public RestResponse<Map<String, Object>> handleInternalServerError(Exception _e) {
+    RestResponse.Status statusCode = RestResponse.Status.INTERNAL_SERVER_ERROR;
+    Map<String, Object> response = new HashMap<>();
+    response.put("message", "Erro interno no servidor");
     response.put("status", statusCode.getStatusCode());
 
     return RestResponse.status(statusCode, response);
